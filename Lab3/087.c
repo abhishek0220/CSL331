@@ -3,6 +3,7 @@
 #include<unistd.h> 
 #include<string.h>
 #include <stdbool.h> 
+#include<sys/wait.h> 
 
 struct node {
    char* command;
@@ -213,12 +214,12 @@ void main(int argc, char** argv){
         line[nread-1] = '\0';
         char *comGot;
         comGot = trimwhitespace(&line[0]);
-        if(strcmp(comGot,"HB") == 0)
+        if(strcmp(comGot,"HISTORY BRIEF") == 0)
             print(&stack1, false);
-        else if(strcmp(comGot, "HF")==0)
+        else if(strcmp(comGot, "HISTORY FULL")==0)
             print(&stack1, true);
-        else if(startsWith("EX ",comGot)){
-            comGot = &comGot[3];
+        else if(startsWith("EXEC ",comGot)){
+            comGot = &comGot[5];
             bool num = isNum(comGot);
             if(num){
                 int a = atoi(comGot);
