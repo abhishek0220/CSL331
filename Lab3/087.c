@@ -14,18 +14,21 @@ struct node {
 struct node *stack1 = NULL;
 
 void append(struct node **head, char *data) {
+    """
+    Insert data in the end of the node
+    """
     struct node *newNode = (struct node*) malloc(sizeof(struct node));
     int i=0;
     while(data[i]!= '\0'){
         if(data[i] == ' ')break;
         i++;
     }
-    char *cName = (char*)(malloc(sizeof(char)*(i+1)));
+    char *cName = (char*)(malloc(sizeof(char)*(i+1))); // command name
     strncpy(cName, data, i);
     cName[i] = '\0';
-    newNode->command = data;
+    newNode->command = data; // complete command
     newNode->next = NULL;
-    newNode->cName = cName;
+    newNode->cName = cName; // only command name
     if(*head == NULL)
         *head = newNode;
     else{
@@ -34,7 +37,13 @@ void append(struct node **head, char *data) {
         ptr->next = newNode;
     }
 }
+
 void print(struct node **head, bool con) {
+    """
+    Print all the nodes 
+    if con -> print the full command
+    else -> print only the command name
+    """
     int i=1;
     struct node *ptr = *head;
     while(ptr != NULL) {
@@ -49,7 +58,12 @@ void print(struct node **head, bool con) {
     }
     printf("\n");
 }
+
+
 void clearStack(struct node **head) {
+    """
+    Clear the stack
+    """
     struct node *ptr = *head;
     if(ptr == NULL) return;
     struct node *next;
@@ -63,8 +77,10 @@ void clearStack(struct node **head) {
 }
 
 //----------Utility Funtions--------------------
-char *trimwhitespace(char *comstr)
-{
+char *trimwhitespace(char *comstr){
+    """
+    Remove the white spaces from the string
+    """
     char *str = comstr;
     char *end;
     while(*str == ' ') str++;
@@ -78,12 +94,18 @@ char *trimwhitespace(char *comstr)
 
 bool startsWith(const char *pre, const char *str)
 {
+    """
+    Check if the string starts with the prefix
+    """
     size_t lenpre = strlen(pre),
            lenstr = strlen(str);
     return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
 
 bool isNum(char *str){
+    """
+    Check if the string is a number
+    """
     int i=0;
     while(str[i] != '\0'){
         if(str[i] < 48 || str[i] > 57) return false;
@@ -95,6 +117,9 @@ bool isNum(char *str){
 //------------------To Execute command using args array
 void  execute(char **argv)
 {
+    """
+    Execute the command
+    """
      pid_t  pid;
      int    status;
      if ((pid = fork()) < 0) {
@@ -114,6 +139,9 @@ void  execute(char **argv)
 
 //------------------To call execute funtion from single line-------
 void executeFromLine(char *lineWithSpace){
+    """
+    Execute the command from the line
+    """
     char *line = trimwhitespace(lineWithSpace);
     int numberOfArgs=1;
     int i=0;
@@ -155,6 +183,9 @@ void executeFromLine(char *lineWithSpace){
 
 //------------------Extract Line from File and call excuteFromLine-------
 void executeFromFile(char file_loc[]){
+    """
+    Execute the command from the file
+    """
     FILE *filePointer; 
     filePointer = fopen(file_loc, "r");
     char *line = NULL;
@@ -169,6 +200,9 @@ void executeFromFile(char file_loc[]){
 
 //------------------Run from ID(INT)-------
 void runCommandByID(struct node **head, int num){
+    """
+    Run the command from the ID
+    """
     struct node *ptr = *head;
     bool con = true;
     while(ptr!=NULL && num > 0){
@@ -186,6 +220,9 @@ void runCommandByID(struct node **head, int num){
 
 //------------------Run By Name-------
 void runCommandByName(struct node **head, char *command){
+    """
+    Run the command from the name
+    """
     struct node *ptr = *head;
     bool con = true;
     while(ptr!=NULL){
